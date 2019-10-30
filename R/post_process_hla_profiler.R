@@ -41,20 +41,7 @@ post_process_hla_profiler = function(
   a(paste0("Reading in files") %>% as.header1)
   a("")
 
-  # a("Reading in files from input_file_paths:")
-  #   read_data = mclapply(input_file_paths, function(input_file_path){
-  #     # a("  ", input_file_path)
-  #     message(input_file_path)
-  #     # res_df = fread(input_file_path, select = c("Allele1_Accession", "Allele2_Accession", "Allele1", "Allele2", "Allele1 Comments"), data.table = F)
-  # #    return_list = lapply(counts_df[["NumReads"]], function(x)x) # rbindlist needs a list so we turn this into a list
-  #  #   names(return_list) = counts_df[["Name"]] # Name the list items so they get assigned to the right column
-  #     # return(res_df)
-  #     print(res_df)
-  #   }, mc.cores = thread_num)
-  #   a("")
-
   HLA_data = do.call(plyr::rbind.fill, mclapply(input_file_paths, function(input_file_path){
-    # a("  ", input_file_path)
     res_file = gsub(".HLATypes.txt", "", sapply(stringr::str_split(input_file_path, "/"), tail, 1))
 
     res_df = data.table::fread(input_file_path, select = c("Allele1_Accession", "Allele2_Accession", "Allele1", "Allele2", "Allele1 Comments"), data.table = F)
@@ -91,6 +78,9 @@ post_process_hla_profiler = function(
 
   # return(HLA_data)
 
- file_output_path = paste0(output_dir, "/HLATypes.tsv")
+  a(paste0("Writing to output file") %>% as.header1)
+  a("")
+
+  file_output_path = paste0(output_dir, "/HLATypes.tsv")
   fwrite(HLA_data, file_output_path, sep = "\t")
 }
