@@ -1,0 +1,22 @@
+Package: HLAProfiler
+Version: 0.1.0
+Title: Functions for post processing HLA Profiler output
+Description: Given a sample data matrix that indicates the sample name, sample folder name and input paths
+    this script can process HLA Profiler output into a useable format.
+Authors@R: 
+    person(given = "Sarah",
+           family = "Entwistle",
+           role = c("aut", "cre"),
+           email = "sentwistle13@gmail.com")
+Imports:
+    magrittr,
+    data.table,
+    housekeeping,
+    binfotron,
+    plyr,
+    stringr,
+    utils
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: false
+RoxygenNote: 6.1.1
