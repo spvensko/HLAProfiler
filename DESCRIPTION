@@ -11,8 +11,6 @@ Authors@R:
 Imports:
     magrittr,
     data.table,
-    housekeeping,
-    binfotron,
     plyr,
     stringr,
     utils
