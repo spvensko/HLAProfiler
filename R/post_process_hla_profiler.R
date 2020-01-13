@@ -15,7 +15,7 @@
 #'
 #' @return A path to the rds file.
 #'
-#' @import magrittr data.table housekeeping binfotron plyr stringr utils parallel
+#' @import data.table plyr utils parallel
 #'
 #' @export
 
@@ -41,46 +41,47 @@ post_process_hla_profiler = function(
   a(paste0("Reading in files") %>% as.header1)
   a("")
 
-  HLA_data = do.call(plyr::rbind.fill, mclapply(input_file_paths, function(input_file_path){
-    res_file = gsub(".HLATypes.txt", "", sapply(stringr::str_split(input_file_path, "/"), tail, 1))
+  HLA_data = do.call(plyr::rbind.fill, lapply(input_file_paths, function(input_file_path){
+    res_file = gsub(".HLATypes.txt", "", sapply(strsplit(input_file_path, "/"), tail, 1))
 
     res_df = data.table::fread(input_file_path, select = c("Allele1_Accession", "Allele2_Accession", "Allele1", "Allele2", "Allele1 Comments"), data.table = F)
     res_df = res_df[!(res_df$`Allele1 Comments` == "Not enough reads to make call"),]
     res_df$`Allele1 Comments` = NULL
-
-    res_df$Allele_Type = gsub("[*].*$", "", res_df$Allele1)
-    HLA_list = res_df$Allele_Type
+    
+    type_df = res_df[c('Allele1', 'Allele2')]
+    type_df$Allele_Type = gsub("[*].*$", "", type_df$Allele1)
+    
     Class_1_HLA_type = c("A", "B", "C")
-    Class_1_HLA = HLA_list[HLA_list %in% Class_1_HLA_type]
-
-    Other_HLA = HLA_list[!(HLA_list %in% Class_1_HLA_type)]
-
-    res_df$new_col_1 = sub("(:[^:]+):.*", "\\1", res_df$Allele1)
-    res_df$new_col_1 = sub("[*]", "_", res_df$new_col_1)
-    res_df$new_col_1 = sub("[:]", "_", res_df$new_col_1)
-    res_df$new_col_2 = sub("(:[^:]+):.*", "\\1", res_df$Allele2)
-    res_df$new_col_2 = sub("[*]", "_", res_df$new_col_2)
-    res_df$new_col_2 = sub("[:]", "_", res_df$new_col_2)
-
-    Allele_list = unique(c(res_df$new_col_1, res_df$new_col_2))
-
+    Class_1_df = type_df[type_df$Allele_Type %in% Class_1_HLA_type, ]
+    Class_1_df = data.frame(Allele = c(Class_1_df[,"Allele1"], Class_1_df[,"Allele2"]))
+    
+    Class_1_df$Allele = sub("(:[^:]+):.*", "\\1", Class_1_df$Allele)
+    Class_1_df$Allele = sub("[*]", "_", Class_1_df$Allele)
+    Class_1_df$Allele = sub("[:]", "_", Class_1_df$Allele)
+    
+    Other_HLA_df = type_df[!(type_df$Allele_Type %in% Class_1_HLA_type), ]
+    Other_HLA_df = data.frame(Allele = c(Other_HLA_df[,"Allele1"], Other_HLA_df[,"Allele2"]))
+    
+    Other_HLA_df$Allele = sub("(:[^:]+):.*", "\\1", Other_HLA_df$Allele)
+    Other_HLA_df$Allele = sub("[*]", "_", Other_HLA_df$Allele)
+    Other_HLA_df$Allele = sub("[:]", "_", Other_HLA_df$Allele)
+    
+    Allele_list = unique(c(Class_1_df$Allele, Other_HLA_df$Allele))
+    
     column_names = c("Sample_ID", "Class_1_HLA", "Other_HLA", Allele_list)
 
     dat <- data.frame(matrix(ncol = length(column_names), nrow = 0))
     colnames(dat) <- column_names
-    dat[nrow(dat) + 1,] = c(res_file, paste( unlist(Class_1_HLA), collapse=','), paste( unlist(Other_HLA), collapse=','), rep("T", length(colnames(dat)) - 3))
+    dat[nrow(dat) + 1,] = c(res_file, paste( sort(unique(unlist(Class_1_df$Allele))), collapse=','), paste( sort(unique(unlist(Other_HLA_df$Allele))), collapse=','), rep("TRUE", length(colnames(dat)) - 3))
     return(dat)
-  },  mc.cores = thread_num))
+  }))
 
-  HLA_data[is.na(HLA_data)] = "F"
+  HLA_data[is.na(HLA_data)] = "FALSE"
   HLA_data = HLA_data[, order(names(HLA_data))]
   HLA_data = HLA_data[, housekeeping::move_to_front(names(HLA_data), c("Sample_ID", "Class_1_HLA", "Other_HLA"))]
 
-  # return(HLA_data)
-
   a(paste0("Writing to output file") %>% as.header1)
   a("")
-
   file_output_path = paste0(output_dir, "/HLATypes.tsv")
   fwrite(HLA_data, file_output_path, sep = "\t")
 }

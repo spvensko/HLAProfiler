@@ -4,9 +4,14 @@
 \alias{post_process_hla_profiler}
 \title{post_process_hla_profiler}
 \usage{
-post_process_hla_profiler(input_file_paths, output_dir, sample_data_path,
+post_process_hla_profiler(
+  input_file_paths,
+  output_dir,
+  sample_data_path,
   sample_folder_column = "Sample_Folder",
-  sample_id_column = "Sample_ID", thread_num = 16)
+  sample_id_column = "Sample_ID",
+  thread_num = 16
+)
 }
 \arguments{
 \item{input_file_paths}{Character vector of paths to the pipeline output data.}
