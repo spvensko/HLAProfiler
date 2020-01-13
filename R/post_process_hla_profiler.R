@@ -38,7 +38,7 @@ post_process_hla_profiler = function(
   }
 
   a(paste0("Parsing HLA type data: ", this_script_path) %>% housekeeping::as.header1)
-  a(paste0("Reading in files") %>% hosuekeeping::as.header1)
+  a(paste0("Reading in files") %>% housekeeping::as.header1)
   a("")
 
   HLA_data = do.call(plyr::rbind.fill, lapply(input_file_paths, function(input_file_path){
