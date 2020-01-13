@@ -12,6 +12,7 @@ Imports:
     magrittr,
     data.table,
     plyr,
+    dplyr,
     stringr,
     utils
 License: MIT + file LICENSE
