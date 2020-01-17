@@ -9,9 +9,8 @@ Authors@R:
            role = c("aut", "cre"),
            email = "sentwistle13@gmail.com")
 Imports:
-    magrittr,
     data.table,
-    plyr,
+    dplyr,
     stringr,
     utils
 License: MIT + file LICENSE
