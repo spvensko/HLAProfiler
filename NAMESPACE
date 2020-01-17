@@ -2,6 +2,6 @@
 
 export(post_process_hla_profiler)
 import(data.table)
+import(magrittr)
 import(parallel)
-import(plyr)
 import(utils)
