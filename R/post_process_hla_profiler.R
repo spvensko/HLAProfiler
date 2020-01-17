@@ -28,7 +28,6 @@ post_process_hla_profiler = function(
   thread_num = 16
 ){
 
-  library(magrittr)
   readme_path = file.path(output_dir, "readme.txt")
   a = function(...){
     my_output = paste0(...)
@@ -38,7 +37,7 @@ post_process_hla_profiler = function(
     message(my_output)
   }
 
-  a(paste0("Parsing HLA type data: ", this_script_path) %>% as.header1)
+  a(paste0("Parsing HLA type data: ", this_script_path) %>% housekeeping::as.header1)
   a(paste0("Reading in files") %>% housekeeping::as.header1)
   a("")
 
