@@ -11,6 +11,7 @@ Authors@R:
 Imports:
     data.table,
     magrittr,
+    dplyr,
     stringr,
     utils
 License: MIT + file LICENSE

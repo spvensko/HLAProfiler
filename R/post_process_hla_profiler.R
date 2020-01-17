@@ -15,7 +15,7 @@
 #'
 #' @return A path to the rds file.
 #'
-#' @import data.table magrittr utils parallel
+#' @import data.table magrittr utils parallel dplyr
 #'
 #' @export
 
