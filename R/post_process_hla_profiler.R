@@ -15,7 +15,7 @@
 #'
 #' @return A path to the rds file.
 #'
-#' @import data.table plyr utils parallel
+#' @import data.table dplyr utils parallel
 #'
 #' @export
 
