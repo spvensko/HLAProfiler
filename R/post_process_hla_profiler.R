@@ -15,7 +15,7 @@
 #'
 #' @return A path to the rds file.
 #'
-#' @import data.table magrittr utils parallel dplyr
+#' @import data.table magrittr utils parallel
 #'
 #' @export
 
@@ -37,7 +37,7 @@ post_process_hla_profiler = function(
     message(my_output)
   }
 
-  a(paste0("Parsing HLA type data: ", this_script_path) %>% housekeeping::as.header1)
+  a(paste0("Parsing HLA type data: ", this_script_path) magrittr::%>% housekeeping::as.header1)
   a(paste0("Reading in files") %>% housekeeping::as.header1)
   a("")
 
