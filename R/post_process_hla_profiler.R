@@ -37,8 +37,8 @@ post_process_hla_profiler = function(
     message(my_output)
   }
 
-  a(paste0("Parsing HLA type data: ", this_script_path) %>% housekeeping::as.header1)
-  a(paste0("Reading in files") %>% housekeeping::as.header1)
+  a(paste0("Parsing HLA type data: ", this_script_path) dplyr::%>% housekeeping::as.header1)
+  a(paste0("Reading in files") dplyr::%>% housekeeping::as.header1)
   a("")
 
   HLA_data = do.call(plyr::rbind.fill, lapply(input_file_paths, function(input_file_path){
@@ -80,7 +80,7 @@ post_process_hla_profiler = function(
   HLA_data = HLA_data[, order(names(HLA_data))]
   HLA_data = HLA_data[, housekeeping::move_to_front(names(HLA_data), c("Sample_ID", "Class_1_HLA", "Other_HLA"))]
 
-  a(paste0("Writing to output file") %>% housekeeping::as.header1)
+  a(paste0("Writing to output file") dplyr::%>% housekeeping::as.header1)
   a("")
   file_output_path = paste0(output_dir, "/HLATypes.tsv")
   fwrite(HLA_data, file_output_path, sep = "\t")
