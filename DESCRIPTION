@@ -10,8 +10,6 @@ Authors@R:
            email = "sentwistle13@gmail.com")
 Imports:
     data.table,
-    magrittr,
-    stringr,
     utils
 License: MIT + file LICENSE
 Encoding: UTF-8
