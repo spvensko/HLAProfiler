@@ -83,6 +83,7 @@ post_process_hla_profiler = function(
   HLA_data = HLA_data[, housekeeping::move_to_front(names(HLA_data), c("Sample_ID", "Class_1_HLA", "Other_HLA"))]
 
   # a(paste0("Writing to output file") %>% housekeeping::as.header1)
+  a(paste0("Writing to output file"))
   a("")
   file_output_path = paste0(output_dir, "/HLATypes.tsv")
   fwrite(HLA_data, file_output_path, sep = "\t")
