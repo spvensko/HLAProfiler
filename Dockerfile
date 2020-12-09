@@ -1,11 +1,11 @@
 #FROM ubuntu:16.04
 #FROM perl:5
-FROM alpine:edge
+FROM ubuntu:xenial
 USER root
 
-RUN apk update \
-  && apk upgrade \
-  && apk add --no-cache bash \
+RUN apt-get update \
+  && apt-get upgrade \
+  && apt-get add  bash \
     curl \
     wget \
     make \
@@ -13,9 +13,9 @@ RUN apk update \
     g++ \
     zlib-dev \
     file \
+    perl-dev \
   && rm -rf /var/lib/apt/lists/*
 
-RUN apk --no-cache add perl-dev apkbuild-cpan
 RUN yes | cpan App::cpanminus
 RUN cpanm Parallel::ForkManager
 RUN cpanm -f install Number::Format
