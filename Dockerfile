@@ -10,9 +10,9 @@ RUN apt-get update \
     make \
     gcc \
     g++ \
-    zlib-dev \
+    zlib1g-dev \
     file \
-    perl-dev \
+    livperl-dev \
   && rm -rf /var/lib/apt/lists/*
 
 RUN yes | cpan App::cpanminus
