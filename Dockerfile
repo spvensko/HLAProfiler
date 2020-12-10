@@ -12,7 +12,7 @@ RUN apt-get update \
     g++ \
     zlib1g-dev \
     file \
-    livperl-dev \
+    libperl-dev \
   && rm -rf /var/lib/apt/lists/*
 
 RUN yes | cpan App::cpanminus
