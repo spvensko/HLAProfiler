@@ -3,9 +3,9 @@
 FROM ubuntu:xenial
 USER root
 
-RUN apt-get update -y \
-  && apt-get upgrade -y \
-  && apt-get add -y bash \
+RUN apt-get update \
+  && apt-get upgrade \
+  && apt-get install -y bash \
     curl \
     wget \
     make \
