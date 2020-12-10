@@ -4,7 +4,6 @@ FROM ubuntu:xenial
 USER root
 
 RUN apt-get update \
-  && apt-get upgrade \
   && apt-get install -y bash \
     curl \
     wget \
